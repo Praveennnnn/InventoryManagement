@@ -1,8 +1,8 @@
-import { Children, createContext, useState } from "react";
+import { createContext, useState ,useContext} from "react";
 
-const authContext =createContext();
+const AuthContext =createContext();
 
-export const authProvider =({Children})=>{
+export const AuthProvider =({children})=>{
     const [user,setUser]=useState(()=>{
         const storedUser =localStorage.getItem("pos-user")
         return storedUser ?JSON.parse(storedUser):null
@@ -20,5 +20,13 @@ export const authProvider =({Children})=>{
         localStorage.removeItem('pos-token')
     }
 
+    return(
+        <AuthContext.Provider value={{user,login,logout}}>
+            {children}
+        </AuthContext.Provider>
+    )
+
 }
+export const useAuth =()=>useContext(AuthContext)
+export default AuthProvider
 
